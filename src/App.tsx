@@ -1,4 +1,6 @@
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import Register from './components/auth/Register'
+import './index.css'
 
 function App() {
 
@@ -6,7 +8,7 @@ function App() {
     <>
     <BrowserRouter>
     <Routes>
-     <Route></Route>
+     <Route path='/' element={<Register/>}/>
 
     </Routes>
     
