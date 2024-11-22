@@ -9,6 +9,8 @@ class AuthService {
     }
 
     register(data: RegisterField): Promise<RegisterField>{
+        console.log(data);
+        
         return this.http.post('users', data)
     }
 
