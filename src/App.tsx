@@ -4,9 +4,9 @@ import './index.css'
 import Login from './components/auth/Login'
 import DashboardHub from './pages/Dashboard'
 import ManagePage from './pages/ManagePage'
-import CreatePage from './pages/CreatePage'
 import StartRoom from './pages/StartRoom'
 import WatchRoom from './pages/WatchRoom'
+import PlaylistPage from './pages/PlaylistPage'
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
      <Route path='/login' element={<Login/>}/>
      <Route path='/Dashboard' element={<DashboardHub/>}/>
      <Route path="/manage" element={<ManagePage />} />
-     <Route path="/create" element={<CreatePage />} />
+     <Route path="/playlists" element={<PlaylistPage />} />
      <Route path="/start-room" element={<StartRoom />} />
      <Route path="/WatchRoom" element={<WatchRoom />} />
 

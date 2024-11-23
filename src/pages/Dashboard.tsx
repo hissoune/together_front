@@ -33,20 +33,18 @@ const DashboardHub: React.FC = () => {
           </span>
         </div>
 
-        {/* Create Video & Playlist */}
         <div
-          onClick={() => navigate("/create")}
+          onClick={() => navigate("/playlists")}
           className="group w-64 h-64 bg-gradient-to-br from-blue-500 via-cyan-500 to-indigo-700 hover:from-indigo-600 hover:via-blue-700 hover:to-cyan-500 rounded-3xl flex flex-col justify-center items-center shadow-lg shadow-blue-500/50 hover:shadow-indigo-500/50 cursor-pointer transition-all"
         >
           <span className="text-4xl font-bold text-white mb-2 group-hover:scale-110 transition-transform">
-            Create
+            Playlists
           </span>
           <span className="text-sm text-gray-300 group-hover:text-gray-200">
-            Build playlists & videos
+            Manage your playlists
           </span>
         </div>
 
-        {/* Manage Rooms & Playlists */}
         <div
           onClick={() => navigate("/manage")}
           className="group w-64 h-64 bg-gradient-to-br from-blue-500 via-cyan-500 to-indigo-700 hover:from-indigo-600 hover:via-blue-700 hover:to-cyan-500 rounded-3xl flex flex-col justify-center items-center shadow-lg shadow-blue-500/50 hover:shadow-indigo-500/50 cursor-pointer transition-all"
