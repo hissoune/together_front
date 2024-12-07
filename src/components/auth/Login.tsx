@@ -60,11 +60,13 @@ const Login: React.FC = () => {
         const resultAction = await dispatch(login(formData));
 
         if (login.fulfilled.match(resultAction)) {
+          const token = resultAction.payload?.token;
           alert("Login Successful!");
-          localStorage.setItem('token', resultAction.payload.token)
+          localStorage.setItem("token", token);
           navigate("/dashboard");
         } else {
-          setError(resultAction.payload.error || "Login failed");
+          const error = resultAction.payload?.error || "Invalid credentials";
+          setError(error);
         }
       } catch (err) {
         setError("Something went wrong!");
@@ -96,6 +98,9 @@ const Login: React.FC = () => {
               placeholder="Enter your email"
               required
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email}</p>
+            )}
           </div>
           <div>
             <label
@@ -114,9 +119,12 @@ const Login: React.FC = () => {
               placeholder="Enter your password"
               required
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password}</p>
+            )}
           </div>
           {error && (
-            <p className="text-blue-500 text-center text-sm">{error}</p>
+            <p className="text-red-500 text-center text-sm">{error}</p>
           )}
           <button
             type="submit"

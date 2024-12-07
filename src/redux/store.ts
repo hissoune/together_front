@@ -1,10 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
 import authSlice from './slices/AuthSlice';
+import playlistSlice from './slices/PlaylistSlice';
 
 
 export const store = configureStore({
     reducer: {
-       auth:authSlice
+       auth:authSlice,
+       playlist:playlistSlice
     }
 })
 export type RootState = ReturnType<typeof store.getState>;

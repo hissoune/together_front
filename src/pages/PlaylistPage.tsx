@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReactPlayer from "react-player";
+import { fetchPlaylists ,createPlaylist} from "../redux/slices/PlaylistSlice"; // Redux thunk action
+import { RootState } from "../redux/store"; // RootState type for useSelector
 
 interface Playlist {
   id: string;
@@ -8,11 +11,20 @@ interface Playlist {
 }
 
 const PlaylistPage: React.FC = () => {
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const dispatch = useDispatch();
+  const { datalist: playlists, loading, errorMessage } = useSelector(
+    (state: RootState) => state.playlist // Matches `store` reducer name
+  );
+    
   const [showPopup, setShowPopup] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState<Playlist | null>(null);
   const [playlistName, setPlaylistName] = useState("");
   const [videoLinks, setVideoLinks] = useState<string[]>([""]);
+
+  // Fetch playlists on component mount
+  useEffect(() => {
+    dispatch(fetchPlaylists() as any); // Dispatching thunk action
+  }, []);
 
   const openPopup = (playlist: Playlist | null = null) => {
     if (playlist) {
@@ -47,21 +59,21 @@ const PlaylistPage: React.FC = () => {
   };
 
   const handleSubmit = () => {
+    if (!playlistName.trim() || videoLinks.some((video) => !video.trim())) {
+      alert("Please fill in all fields");
+      return;
+    }
+  
     if (currentPlaylist) {
-      setPlaylists((prev) =>
-        prev.map((pl) =>
-          pl.id === currentPlaylist.id
-            ? { ...pl, name: playlistName, videos: videoLinks }
-            : pl
-        )
-      );
+      // Update logic here if required
     } else {
-      const newPlaylist: Playlist = {
-        id: Date.now().toString(),
-        name: playlistName,
-        videos: videoLinks,
-      };
-      setPlaylists([...playlists, newPlaylist]);
+      // Create a new playlist
+      dispatch(
+        createPlaylist({
+          name: playlistName,
+          videos: videoLinks.filter((video) => video.trim()), // Filter out empty links
+        }) as any
+      );
     }
     closePopup();
   };
@@ -70,11 +82,15 @@ const PlaylistPage: React.FC = () => {
     <div className="min-h-screen bg-gray-800 text-white px-8 py-4">
       <h1 className="text-4xl font-bold mb-6 text-center">Your Playlists</h1>
 
+      {/* Display Loading/Error States */}
+      {loading && <p className="text-center text-gray-400">Loading playlists...</p>}
+      {errorMessage && <p className="text-center text-red-500">{errorMessage}</p>}
+
       {/* Playlist List */}
       <div className="space-y-4">
-        {playlists.map((playlist) => (
+        {playlists?.map((playlist) => (
           <div
-            key={playlist.id}
+            key={playlist._id}
             className="bg-gray-700 px-4 py-3 rounded-lg flex flex-col"
           >
             <div className="mb-4">

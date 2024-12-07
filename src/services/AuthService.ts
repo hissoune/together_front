@@ -8,14 +8,16 @@ class AuthService {
         this.http = Api();
     }
 
-    register(data: RegisterField): Promise<RegisterField>{
+   async register(data: RegisterField): Promise<RegisterField>{
         console.log(data);
         
-        return this.http.post('users', data)
+        return await this.http.post('users', data)
     }
 
-    login(data: LoginField): Promise<{token: string}>{
-        return this.http.post('/users/login', data)
+   async login(data: LoginField){
+        console.log(data);
+        
+        return await this.http.post('/users/login',{email:data.email,password:data.password})
     }
 }
 
