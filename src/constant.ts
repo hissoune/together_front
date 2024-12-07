@@ -42,6 +42,7 @@ export interface LoginField{
     password: string;
 }
 
-export interface FriendField{
+export interface CreatePlaylistField{
     name: string;
+    videos:string[]
 }
