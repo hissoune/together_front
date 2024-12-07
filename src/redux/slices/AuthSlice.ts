@@ -20,6 +20,7 @@ export const login = createAsyncThunk(
         { email, password }: { email: string; password: string },
         { rejectWithValue }
     ) => {
+        
         try {
             const response = await AuthService.login({ email, password });
             console.log('hello', response)
