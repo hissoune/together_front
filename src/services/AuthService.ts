@@ -1,24 +1,34 @@
-import Api from "../api/Api.ts";
-import {LoginField, RegisterField} from "../constant.ts";
+import axiosInstance from '../api/Api';
 
-class AuthService {
-    private http: ReturnType<typeof Api>;
+const AuthService = {
 
-    constructor() {
-        this.http = Api();
-    }
 
-   async register(data: RegisterField): Promise<RegisterField>{
-        console.log(data);
-        
-        return await this.http.post('users', data)
-    }
 
-   async login(data: LoginField){
-        console.log(data);
-        
-        return await this.http.post('/users/login',{email:data.email,password:data.password})
-    }
+    login: async (data:any) => {
+      console.log(data);
+      
+        try {
+          const response = await axiosInstance.post('auth/login', data);
+          return response.data; 
+        } catch (error) {
+          console.error('Login failed:', error);
+          throw error; 
+        }
+      },
+      register:async (formdata:any) =>{     
+        console.log(formdata);
+           
+        try {
+            const response= await  axiosInstance.post('auth/register' ,formdata);
+           
+            
+            return  response.data;
+        } catch (error) {
+            console.error('register failed:', error);
+            throw error; 
+        }
+      },
+    
 }
 
-export default new AuthService()
+export default AuthService;

@@ -1,10 +1,28 @@
-import {Config} from "../helpers/ConfigHelper";
-import axios from "axios";
+import axios from 'axios';
 
-const Api = () => {
-    const token = localStorage.getItem("token");
-    
-    return axios.create(Config(token));
-}
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_EXPRESS_BACKEND,
+});
 
-export default Api
+axiosInstance.interceptors.request.use(
+  function (config) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    if (config.data?.image) {
+      config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+      config.headers['Content-Type'] = 'application/json';
+    }
+
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;
